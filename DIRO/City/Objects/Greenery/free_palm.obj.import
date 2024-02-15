@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cpbqcqr4wywmu"
+path="res://.godot/imported/free_palm.obj-75c32771baffaf709cdce8426e05d042.mesh"
+
+[deps]
+
+files=["res://.godot/imported/free_palm.obj-75c32771baffaf709cdce8426e05d042.mesh"]
+
+source_file="res://City/Objects/Greenery/free_palm.obj"
+dest_files=["res://.godot/imported/free_palm.obj-75c32771baffaf709cdce8426e05d042.mesh", "res://.godot/imported/free_palm.obj-75c32771baffaf709cdce8426e05d042.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

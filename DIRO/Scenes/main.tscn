@@ -1,3 +1,7 @@
-[gd_scene format=3 uid="uid://crolooqg0yfob"]
+[gd_scene load_steps=2 format=3 uid="uid://crolooqg0yfob"]
+
+[ext_resource type="PackedScene" uid="uid://bbx4j2vdoeo4x" path="res://Scenes/city.tscn" id="1_4b7ba"]
 
 [node name="Main" type="Node3D"]
+
+[node name="City" parent="." instance=ExtResource("1_4b7ba")]
