@@ -2,7 +2,6 @@
 
 [ext_resource type="Material" uid="uid://bttdoi3m733nv" path="res://City/Materials/Road.tres" id="1_c8bx4"]
 [ext_resource type="Material" uid="uid://bhnw26wy548e8" path="res://City/Materials/Base.tres" id="2_dkey4"]
-[ext_resource type="ArrayMesh" uid="uid://cpbqcqr4wywmu" path="res://City/Objects/Greenery/free_palm.obj" id="3_qm0ib"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ul5gq"]
 
@@ -142,7 +141,3 @@ light_indirect_energy = 6.98
 light_size = 1.0
 omni_range = 150.0
 omni_attenuation = 0.0371627
-
-[node name="FreePalm" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.5343, -0.130548, -56.1746)
-mesh = ExtResource("3_qm0ib")
