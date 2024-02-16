@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbx4j2vdoeo4x"]
+[gd_scene load_steps=9 format=3 uid="uid://bbx4j2vdoeo4x"]
 
 [ext_resource type="Material" uid="uid://bttdoi3m733nv" path="res://City/Materials/Road.tres" id="1_c8bx4"]
 [ext_resource type="Material" uid="uid://bhnw26wy548e8" path="res://City/Materials/Base.tres" id="2_dkey4"]
+[ext_resource type="ArrayMesh" uid="uid://cpbqcqr4wywmu" path="res://City/Objects/Greenery/free_palm.obj" id="3_qm0ib"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ul5gq"]
 
@@ -10,6 +11,8 @@
 [sub_resource type="BoxMesh" id="BoxMesh_m0xat"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_v7v63"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ykkld"]
 
 [node name="City" type="Node3D"]
 
@@ -50,15 +53,96 @@ material_override = ExtResource("2_dkey4")
 mesh = SubResource("BoxMesh_m0xat")
 skeleton = NodePath("../../..")
 
+[node name="RSide2" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/Base"]
+transform = Transform3D(500, 0, 0, 0, 100, 0, 0, 0, 50, 0, 50, 475)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("BoxMesh_m0xat")
+skeleton = NodePath("../../..")
+
 [node name="LSide" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/Base"]
 transform = Transform3D(500, 0, 0, 0, 100, 0, 0, 0, 50, 0, 50, -100)
 material_override = ExtResource("2_dkey4")
 mesh = SubResource("BoxMesh_m0xat")
 skeleton = NodePath("../../..")
 
+[node name="LSide2" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/Base"]
+transform = Transform3D(500, 0, 0, 0, 100, 0, 0, 0, 50, 0, 50, -475)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("BoxMesh_m0xat")
+skeleton = NodePath("../../..")
+
 [node name="GrandCentrum" type="Node3D" parent="Buildings/DIROBuilding/Building"]
 
-[node name="Outerwalls" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum"]
+[node name="OuterBase" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum"]
 transform = Transform3D(1000, 0, 0, 0, 10, 0, 0, 0, 1000, 0, 100, 0)
 material_override = ExtResource("2_dkey4")
 mesh = SubResource("CylinderMesh_v7v63")
+
+[node name="Overhang" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum"]
+transform = Transform3D(1000, 0, 0, 0, 10, 0, 0, 0, 1000, 0, 401.371, 0)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("CylinderMesh_v7v63")
+
+[node name="Base Pillars" type="Node3D" parent="Buildings/DIROBuilding/Building/GrandCentrum"]
+
+[node name="Pillar4" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum/Base Pillars"]
+transform = Transform3D(30, 0, 0, 0, 150, 0, 0, 0, 30, 0, 250, -450)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("CylinderMesh_ykkld")
+skeleton = NodePath("../..")
+
+[node name="Pillar2" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum/Base Pillars"]
+transform = Transform3D(30, 0, 0, 0, 150, 0, 0, 0, 30, -450, 250, 0)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("CylinderMesh_ykkld")
+skeleton = NodePath("../..")
+
+[node name="Pillar3" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum/Base Pillars"]
+transform = Transform3D(30, 0, 0, 0, 150, 0, 0, 0, 30, 0, 250, 450)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("CylinderMesh_ykkld")
+skeleton = NodePath("../..")
+
+[node name="Pillar8" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum/Base Pillars"]
+transform = Transform3D(30, 0, 0, 0, 150, 0, 0, 0, 30, -300, 250, 300)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("CylinderMesh_ykkld")
+skeleton = NodePath("../..")
+
+[node name="Pillar7" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum/Base Pillars"]
+transform = Transform3D(30, 0, 0, 0, 150, 0, 0, 0, 30, -300, 250, -300)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("CylinderMesh_ykkld")
+skeleton = NodePath("../..")
+
+[node name="Pillar6" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum/Base Pillars"]
+transform = Transform3D(30, 0, 0, 0, 150, 0, 0, 0, 30, 300, 250, -300)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("CylinderMesh_ykkld")
+skeleton = NodePath("../..")
+
+[node name="Pillar5" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum/Base Pillars"]
+transform = Transform3D(30, 0, 0, 0, 150, 0, 0, 0, 30, 300, 250, 300)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("CylinderMesh_ykkld")
+skeleton = NodePath("../..")
+
+[node name="Pillar1" type="MeshInstance3D" parent="Buildings/DIROBuilding/Building/GrandCentrum/Base Pillars"]
+transform = Transform3D(30, 0, 0, 0, 150, 0, 0, 0, 30, 450, 250, 0)
+material_override = ExtResource("2_dkey4")
+mesh = SubResource("CylinderMesh_ykkld")
+skeleton = NodePath("../..")
+
+[node name="Lights" type="Node3D" parent="Buildings/DIROBuilding"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Buildings/DIROBuilding/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, 0)
+light_energy = 5.686
+light_indirect_energy = 6.98
+light_size = 1.0
+omni_range = 150.0
+omni_attenuation = 0.0371627
+
+[node name="FreePalm" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.5343, -0.130548, -56.1746)
+mesh = ExtResource("3_qm0ib")
