@@ -14,6 +14,10 @@ config/name="DIRO-Server"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+ServerManager="*res://Scripts/ServerManager.cs"
+
 [dotnet]
 
 project/assembly_name="DIRO-Server"
