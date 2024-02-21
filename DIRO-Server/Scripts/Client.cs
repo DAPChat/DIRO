@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
 using System.Net.Sockets;
 
 public class Client
@@ -14,10 +13,10 @@ public class Client
     public Client(int _id)
     {
         // Create a new TCP that manages all client functions
-        id = _id;
+        player.id = _id;
 
         // Pass the Client class so variables are accessible in TCP
-        tcp = new TCP(id, this);
+        tcp = new TCP(this);
     }
 
     //public PlayerAccount Acc()
@@ -30,13 +29,11 @@ public class Client
         public TcpClient client;
         public Client instance;
 
-        private readonly int id;
         private NetworkStream stream;
         private byte[] buffer;
 
-        public TCP(int _id, Client _client)
+        public TCP(Client _client)
         {
-            id = _id;
             instance = _client;
         }
 
@@ -76,7 +73,7 @@ public class Client
                 {
                     // Disconnects from server if not in game
                     // Disconnect from game if in game
-                    Server.Disconnect(id, instance);
+                    ServerManager.Disconnect(instance);
                  
                     return;
                 }
@@ -90,7 +87,7 @@ public class Client
             }
             catch (Exception)
             {
-                Server.Disconnect(id, instance);
+                ServerManager.Disconnect(instance);
            
             }
         }

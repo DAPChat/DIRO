@@ -3,16 +3,16 @@ using System.Net.Sockets;
 using System.Collections.Generic;
 using System;
 
-class Server
+public class ServerManager
 {
     private static TcpListener tcpListener;
 
     public static bool on = false;
     public static int playerCount = 0;
-    // List of all active ids to negate duplicates
-    public static List<int> ids = new List<int>();
 
-    public static List<Client> clients = new List<Client>();
+    // List of all active ids to negate duplicates
+    public static List<int> ids = new();
+    public static List<Client> clients = new();
 
     public static void Start()
     {
@@ -33,7 +33,7 @@ class Server
     {
         if (!on) return;
 
-        TcpClient _client = new TcpClient();
+        TcpClient _client = new();
 
         try
         {
@@ -46,7 +46,7 @@ class Server
         // On connection, increase playercount
         playerCount++;
 
-        int _id = 1;
+        int _id = ids.Count;
 
         // Create a unique id for the player
         while (ids.Contains(_id))
@@ -54,21 +54,23 @@ class Server
             _id++;
         }
 
+        Client newClient = new(_id);
+
         ids.Add(_id);
-        clients.Add(new Client(_id));
+        clients.Add(newClient);
+
+        newClient.tcp.Connect(_client);
 
         Console.WriteLine($"Client connected with id: {_id}, {playerCount} player(s) online!");
-
-        clients.Last().tcp.Connect(_client);
 
         // Listen for new player
         tcpListener.BeginAcceptTcpClient(ClientAcceptCallback, null);
     }
-    public static void Disconnect(int id, Client _client)
+    public static void Disconnect(Client _client)
     {
         // Remove the client from the server if they are not in game
         // Free up the id from the server
-        ids.Remove(id);
+        ids.Remove(_client.player.id);
 
         if (clients.Contains(_client))
         {
@@ -78,6 +80,6 @@ class Server
 
         playerCount--;
 
-        Console.WriteLine($"Disconnected from client with id: {id}, {playerCount} player(s) remain!");
+        Console.WriteLine($"Disconnected from client with id: {_client.player.id}, {playerCount} player(s) remain!");
     }
 }

@@ -23,7 +23,7 @@ public class PacketManager
             }
             catch (Exception e)
             {
-                Console.WriteLine(client.id);
+                Console.WriteLine(client.player.id);
 
                 Console.WriteLine(data.ToString());
 
@@ -36,18 +36,13 @@ public class PacketManager
     // Convert a class to the properly formatted Json
     public static byte[] ToJson(object json)
     {
-        LoadType loadType = new LoadType();
-
-        loadType.parameters = JsonConvert.SerializeObject(json);
-        loadType.type = json.GetType().Name;
+        LoadType loadType = new()
+        {
+            parameters = JsonConvert.SerializeObject(json),
+            type = json.GetType().Name
+        };
 
         return ToBytes("[Packet]" + JsonConvert.SerializeObject(loadType));
-    }
-
-    // Convert an int to bytes
-    public static byte[] ToBytes(int i)
-    {
-        return Encoding.UTF8.GetBytes(i.ToString());
     }
 
     // Convert a string to bytes
