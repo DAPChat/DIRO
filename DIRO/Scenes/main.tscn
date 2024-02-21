@@ -1,7 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://crolooqg0yfob"]
+[gd_scene load_steps=6 format=3 uid="uid://crolooqg0yfob"]
 
-[ext_resource type="PackedScene" uid="uid://bbx4j2vdoeo4x" path="res://Scenes/city.tscn" id="1_4b7ba"]
+[ext_resource type="Texture2D" uid="uid://cnvut4tek760b" path="res://City/Materials/_96a659ec-87c9-4dea-a5a2-69840a473f8c (1).jpg" id="1_6ad4x"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xvt05"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_axu2r"]
+panorama = ExtResource("1_6ad4x")
+
+[sub_resource type="Sky" id="Sky_nfdks"]
+sky_material = SubResource("PanoramaSkyMaterial_axu2r")
+
+[sub_resource type="Environment" id="Environment_fo30j"]
+background_mode = 2
+sky = SubResource("Sky_nfdks")
 
 [node name="Main" type="Node3D"]
 
-[node name="City" parent="." instance=ExtResource("1_4b7ba")]
+[node name="Player" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+
+[node name="TestingField" type="MeshInstance3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+mesh = SubResource("PlaneMesh_xvt05")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fo30j")
