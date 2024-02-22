@@ -1,14 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://crolooqg0yfob"]
+[gd_scene load_steps=10 format=3 uid="uid://crolooqg0yfob"]
 
-[ext_resource type="Texture2D" uid="uid://cnvut4tek760b" path="res://City/Materials/_96a659ec-87c9-4dea-a5a2-69840a473f8c (1).jpg" id="1_6ad4x"]
+[ext_resource type="Script" path="res://Scripts/Character.cs" id="1_gstds"]
+[ext_resource type="Texture2D" uid="uid://8ev657r8dtke" path="res://City/Materials/OIG4.Bu7D9Nd.jpeg" id="1_w2a2u"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xsrj0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_youts"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_xvt05"]
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_axu2r"]
-panorama = ExtResource("1_6ad4x")
+[sub_resource type="BoxShape3D" id="BoxShape3D_7shfl"]
+size = Vector3(2, 0.003, 2)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ff4d5"]
+panorama = ExtResource("1_w2a2u")
 
 [sub_resource type="Sky" id="Sky_nfdks"]
-sky_material = SubResource("PanoramaSkyMaterial_axu2r")
+sky_material = SubResource("PanoramaSkyMaterial_ff4d5")
 
 [sub_resource type="Environment" id="Environment_fo30j"]
 background_mode = 2
@@ -16,13 +24,36 @@ sky = SubResource("Sky_nfdks")
 
 [node name="Main" type="Node3D"]
 
-[node name="Player" type="Node3D" parent="."]
+[node name="Character" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79115, 0)
+script = ExtResource("1_gstds")
 
-[node name="Camera3D" type="Camera3D" parent="Player"]
+[node name="Camera3D" type="Camera3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
-[node name="TestingField" type="MeshInstance3D" parent="."]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+[node name="CharacterMesh" type="MeshInstance3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_xsrj0")
+
+[node name="CharacterCollider" type="CollisionShape3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_youts")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="TestingField" type="MeshInstance3D" parent="StaticBody3D"]
 mesh = SubResource("PlaneMesh_xvt05")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_7shfl")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_fo30j")

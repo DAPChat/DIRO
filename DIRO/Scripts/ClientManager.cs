@@ -10,6 +10,8 @@ public partial class ClientManager : Node
         client = new Client();
 
         client.tcp.Connect();
+
+        Input.MouseMode = Input.MouseModeEnum.Captured;
     }
 
     // Defines a print function non-godot classes can use
