@@ -12,8 +12,12 @@ public class Client
 
     public Client(int _id)
     {
-        // Create a new TCP that manages all client functions
-        player.id = _id;
+        // Temporary
+        player = new Player
+        {
+            // Create a new TCP that manages all client functions
+            id = _id
+        };
 
         // Pass the Client class so variables are accessible in TCP
         tcp = new TCP(this);
@@ -88,7 +92,6 @@ public class Client
             catch (Exception)
             {
                 ServerManager.Disconnect(instance);
-           
             }
         }
 

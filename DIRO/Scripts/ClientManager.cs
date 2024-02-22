@@ -16,8 +16,6 @@ public partial class ClientManager : Node
     public static void Print(string str)
     {
         GD.Print(str);
-        GD.Print("");
-        GD.Print("");
     }
 
     // Disconnect the client on close

@@ -8,7 +8,7 @@ public class Client
     public TCP tcp;
 
     public Player player;
-    public bool active;
+    public bool active = true;
 
     //private PlayerAccount account;
 
@@ -44,7 +44,7 @@ public class Client
 
         public void Connect()
         {
-            if (connected) return;
+            if (connected || !instance.active) return;
 
             // Try to connect to the client
             // If it fails, try again
@@ -73,6 +73,8 @@ public class Client
             // Continues to try connection until one is made
             while (!client.Connected)
             {
+                if (!instance.active) return;
+
                 cts = new CancellationTokenSource();
                 cts.CancelAfter(5000);
 

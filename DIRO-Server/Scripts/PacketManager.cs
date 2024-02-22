@@ -23,11 +23,11 @@ public class PacketManager
             }
             catch (Exception e)
             {
-                Console.WriteLine(client.player.id);
+                ServerManager.Print(client.player.id);
 
-                Console.WriteLine(data.ToString());
+                ServerManager.Print(data.ToString());
 
-                Console.WriteLine($"{e}");
+                ServerManager.Print($"{e}");
             }
         }
 

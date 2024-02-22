@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://doqoelo56jmnx"]
+
+[ext_resource type="Script" path="res://Scripts/ConsoleDisplay.cs" id="1_iavmw"]
+
+[node name="TestScene" type="Node3D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ConsoleDisplay" type="RichTextLabel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 24.0
+offset_right = -32.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iavmw")

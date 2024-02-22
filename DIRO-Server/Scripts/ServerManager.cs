@@ -3,7 +3,9 @@ using System.Net.Sockets;
 using System.Collections.Generic;
 using System;
 
-public class ServerManager
+using Godot;
+
+public partial class ServerManager : Node
 {
     private static TcpListener tcpListener;
 
@@ -14,9 +16,9 @@ public class ServerManager
     public static List<int> ids = new();
     public static List<Client> clients = new();
 
-    public static void Start()
+    public override void _Ready()
     {
-        Console.Write("Starting Server...");
+        Print("Starting Server...");
 
         on = true;
 
@@ -26,7 +28,7 @@ public class ServerManager
         tcpListener.Start();
         tcpListener.BeginAcceptTcpClient(ClientAcceptCallback, null);
 
-        Console.WriteLine("Started");
+        Print("Started");
     }
 
     private static void ClientAcceptCallback(IAsyncResult result)
@@ -61,11 +63,12 @@ public class ServerManager
 
         newClient.tcp.Connect(_client);
 
-        Console.WriteLine($"Client connected with id: {_id}, {playerCount} player(s) online!");
+        ServerManager.Print($"Client connected with id: {_id}, {playerCount} player(s) online!");
 
         // Listen for new player
         tcpListener.BeginAcceptTcpClient(ClientAcceptCallback, null);
     }
+
     public static void Disconnect(Client _client)
     {
         // Remove the client from the server if they are not in game
@@ -80,6 +83,16 @@ public class ServerManager
 
         playerCount--;
 
-        Console.WriteLine($"Disconnected from client with id: {_client.player.id}, {playerCount} player(s) remain!");
+        ServerManager.Print($"Disconnected from client with id: {_client.player.id}, {playerCount} player(s) remain!");
+    }
+
+    public static void Print(object msg)
+    {
+        ConsoleDisplay.text += msg.ToString() + "\n";
+    }
+
+    public static void PrintSame(object msg) 
+    {
+        ConsoleDisplay.text += msg.ToString();
     }
 }
