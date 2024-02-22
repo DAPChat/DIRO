@@ -4,7 +4,7 @@ using System;
 public partial class ClientManager : Node
 {
     public static Client client;
-
+    
     public override void _Ready()
     {
         client = new Client();

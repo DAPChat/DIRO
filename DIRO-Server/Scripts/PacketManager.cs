@@ -19,6 +19,10 @@ public class PacketManager
 
                 switch (lt.type)
                 {
+                    case "PIP":
+                        var pip = JsonConvert.DeserializeObject<PIP>(lt.parameters);
+                        ServerManager.positions.Add(client.player.id, pip);
+                        break;
                 }
             }
             catch (Exception e)

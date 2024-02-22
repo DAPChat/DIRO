@@ -103,7 +103,7 @@ public class Client
 
         public void WriteStream(byte[] _msg)
         {
-            if (!client.Connected) return;
+            if (!client.Connected || !instance.active || !connected) return;
 
             byte[] byteArr = new byte[8196];
 

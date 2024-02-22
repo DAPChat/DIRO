@@ -1,8 +1,10 @@
 using Godot;
 using System;
 
-public partial class Character : CharacterBody3D
+public partial class Character : Node3D
 {
+	public static Character c;
+
 	public const float Speed = 250.0f;
 	public const float JumpVelocity = 4.5f;
 
@@ -13,41 +15,40 @@ public partial class Character : CharacterBody3D
     {
         if (@event is InputEventMouseMotion eventMouseMotion)
         {
-            Rotation = new Vector3(Rotation.X, Rotation.Y - (eventMouseMotion.Relative.X * 0.001f), Rotation.Z);
+            RotationDegrees = new Vector3(RotationDegrees.X, RotationDegrees.Y - (eventMouseMotion.Relative.X * 0.5f), RotationDegrees.Z);
 
             Camera3D cam = GetNode<Camera3D>("Camera3D");
-            cam.Rotation = new Vector3(Math.Clamp(cam.Rotation.X - (eventMouseMotion.Relative.Y * 0.001f), -1.2f, 1.5f), cam.Rotation.Y, cam.Rotation.Z);
+            cam.RotationDegrees = new Vector3(Math.Clamp(cam.RotationDegrees.X - (eventMouseMotion.Relative.Y * 0.5f), -80f, 85f), cam.RotationDegrees.Y, cam.RotationDegrees.Z);
         }
     }
 
     public override void _Process(double delta)
 	{
-		Vector3 velocity = Velocity;
-
-		// Add the gravity.
-		if (!IsOnFloor())
-			velocity.Y -= gravity * (float)delta;
-
+		Vector3 velocity = Vector3.Zero;
 		// Handle Jump.
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
+		if (Input.IsActionJustPressed("ui_accept"))
 			velocity.Y = JumpVelocity;
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "backward");
-		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-		if (direction != Vector3.Zero)
-		{
-			velocity.X = direction.X * Speed * (float)delta;
-			velocity.Z = direction.Z * Speed * (float)delta;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed*(float)delta);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed*(float)delta);
-		}
+		
+		velocity.X = inputDir.X;
+		velocity.Z = inputDir.Y;
 
-		Velocity = velocity;
-		MoveAndSlide();
+		ClientManager.client.tcp.WriteStream(PacketManager.ToJson(new PIP {
+			vector = velocity,
+			rotation = RotationDegrees 
+		}));
 	}
+
+	public void Move(Vector3 v)
+	{
+		SetDeferred("position", v);
+	}
+
+    public override void _Ready()
+    {
+		c = this;
+    }
 }

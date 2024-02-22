@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://doqoelo56jmnx"]
+[gd_scene load_steps=4 format=3 uid="uid://doqoelo56jmnx"]
 
+[ext_resource type="Script" path="res://Scripts/test_scene.cs" id="1_16ko6"]
 [ext_resource type="Script" path="res://Scripts/ConsoleDisplay.cs" id="1_iavmw"]
+[ext_resource type="PackedScene" uid="uid://c15c4tc7bxqsa" path="res://Scenes/static_body_3d.tscn" id="3_6aget"]
 
 [node name="TestScene" type="Node3D"]
+script = ExtResource("1_16ko6")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -17,3 +20,5 @@ offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_iavmw")
+
+[node name="StaticBody3D" parent="." instance=ExtResource("3_6aget")]

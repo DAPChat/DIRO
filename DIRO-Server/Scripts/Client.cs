@@ -8,6 +8,8 @@ public class Client
     public Player player;
     public bool active;
 
+    public Character character;
+
     //private PlayerAccount account;
 
     public Client(int _id)

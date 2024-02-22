@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c15c4tc7bxqsa"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xvt05"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7shfl"]
+size = Vector3(2, 0.003, 2)
+
+[node name="StaticBody3D" type="StaticBody3D"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="TestingField" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_xvt05")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_7shfl")

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 
 using Godot;
+using static Godot.OpenXRHand;
 
 public partial class ServerManager : Node
 {
@@ -15,6 +16,10 @@ public partial class ServerManager : Node
     // List of all active ids to negate duplicates
     public static List<int> ids = new();
     public static List<Client> clients = new();
+
+    public static List<Character> characters = new();
+
+    public static Dictionary<int, PIP> positions = new();
 
     public override void _Ready()
     {
@@ -29,6 +34,17 @@ public partial class ServerManager : Node
         tcpListener.BeginAcceptTcpClient(ClientAcceptCallback, null);
 
         Print("Started");
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        foreach (var c in characters)
+        {
+            if (!positions.ContainsKey(c.id)) continue;
+
+            c.Move(positions[c.id].vector, positions[c.id].rotation, delta);
+            positions.Remove(c.id);
+        }
     }
 
     private static void ClientAcceptCallback(IAsyncResult result)
@@ -63,7 +79,18 @@ public partial class ServerManager : Node
 
         newClient.tcp.Connect(_client);
 
-        ServerManager.Print($"Client connected with id: {_id}, {playerCount} player(s) online!");
+        Print(clients.Count);
+
+        var thescene = ResourceLoader.Load<PackedScene>("res://Scenes/character.tscn").Instantiate().Duplicate();
+
+        test_scene.sceneTree.CallDeferred(Node.MethodName.AddChild, thescene);
+
+        Character c = thescene as Character;
+        c.id = _id;
+
+        characters.Add(c);
+
+        Print($"Client connected with id: {_id}, {playerCount} player(s) online!");
 
         // Listen for new player
         tcpListener.BeginAcceptTcpClient(ClientAcceptCallback, null);
