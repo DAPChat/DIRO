@@ -40,7 +40,7 @@ public partial class Character : CharacterBody3D
         if (!IsOnFloor())
             Velocity = new Vector3(Velocity.X, Velocity.Y-gravity * (float)delta, Velocity.Z);
 
-        ServerManager.clients[0].tcp.WriteStream(PacketManager.ToJson(new AP { position = Position }));
+        ServerManager.clients[id].tcp.WriteStream(PacketManager.ToJson(new AP { position = Position }));
 
         MoveAndSlide();
     }

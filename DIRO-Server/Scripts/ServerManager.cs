@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 
 using Godot;
-using static Godot.OpenXRHand;
+using System.Linq;
 
 public partial class ServerManager : Node
 {
@@ -15,7 +15,7 @@ public partial class ServerManager : Node
 
     // List of all active ids to negate duplicates
     public static List<int> ids = new();
-    public static List<Client> clients = new();
+    public static Dictionary<int, Client> clients = new();
 
     public static List<Character> characters = new();
 
@@ -40,7 +40,8 @@ public partial class ServerManager : Node
     {
         foreach (var c in characters)
         {
-            if (!positions.ContainsKey(c.id)) continue;
+            lock (positions)
+                if (!positions.ContainsKey(c.id)) continue;
 
             c.Move(positions[c.id].vector, positions[c.id].rotation, delta);
             positions.Remove(c.id);
@@ -75,7 +76,7 @@ public partial class ServerManager : Node
         Client newClient = new(_id);
 
         ids.Add(_id);
-        clients.Add(newClient);
+        clients.Add(_id, newClient);
 
         newClient.tcp.Connect(_client);
 
@@ -87,6 +88,8 @@ public partial class ServerManager : Node
 
         Character c = thescene as Character;
         c.id = _id;
+
+        c.Position = new Vector3(new RandomNumberGenerator().RandiRange(-10, 10), c.Position.Y, c.Position.Z);
 
         characters.Add(c);
 
@@ -102,10 +105,10 @@ public partial class ServerManager : Node
         // Free up the id from the server
         ids.Remove(_client.player.id);
 
-        if (clients.Contains(_client))
+        if (clients.ContainsKey(_client.player.id))
         {
-            clients[clients.IndexOf(_client)].Disconnect();
-            clients.Remove(_client);
+            clients[_client.player.id].Disconnect();
+            clients.Remove(_client.player.id);
         }
 
         playerCount--;

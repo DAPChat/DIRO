@@ -21,7 +21,7 @@ public class PacketManager
                 {
                     case "PIP":
                         var pip = JsonConvert.DeserializeObject<PIP>(lt.parameters);
-                        ServerManager.positions.Add(client.player.id, pip);
+                        ServerManager.positions[client.player.id] = pip;
                         break;
                 }
             }
