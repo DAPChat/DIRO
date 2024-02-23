@@ -38,14 +38,16 @@ public partial class ServerManager : Node
 
     public override void _PhysicsProcess(double delta)
     {
-        foreach (var c in characters)
+        lock (positions) { 
+            foreach (var c in characters)
         {
-            lock (positions)
+            
                 if (!positions.ContainsKey(c.id)) continue;
 
             c.Move(positions[c.id].vector, positions[c.id].rotation, delta);
             positions.Remove(c.id);
         }
+            }
     }
 
     private static void ClientAcceptCallback(IAsyncResult result)
