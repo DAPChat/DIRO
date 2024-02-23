@@ -19,11 +19,6 @@ public class PacketManager
 
                 switch (lt.type)
                 {
-                    case "AP":
-                        var ap = JsonConvert.DeserializeObject<AP>(lt.parameters);
-                        if (ap.position == null || ap.position == Godot.Vector3.Zero) break;
-                        Character.c.Move(ap.position);
-                        break;
                 }
             }
             catch (Exception e)

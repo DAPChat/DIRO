@@ -3,11 +3,6 @@ using System;
 
 public partial class Character : Node3D
 {
-	public static Character c;
-
-	public const float Speed = 250.0f;
-	public const float JumpVelocity = 4.5f;
-
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
@@ -27,7 +22,7 @@ public partial class Character : Node3D
 		Vector3 velocity = Vector3.Zero;
 		// Handle Jump.
 		if (Input.IsActionJustPressed("ui_accept"))
-			velocity.Y = JumpVelocity;
+			velocity.Y = 1;
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
@@ -49,6 +44,6 @@ public partial class Character : Node3D
 
     public override void _Ready()
     {
-		c = this;
+		
     }
 }

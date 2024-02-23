@@ -19,10 +19,6 @@ public class PacketManager
 
                 switch (lt.type)
                 {
-                    case "PIP":
-                        var pip = JsonConvert.DeserializeObject<PIP>(lt.parameters);
-                        ServerManager.positions[client.player.id] = pip;
-                        break;
                 }
             }
             catch (Exception e)
@@ -31,7 +27,7 @@ public class PacketManager
 
                 ServerManager.Print(data.ToString());
 
-                ServerManager.Print($"{e}");
+                ServerManager.Print(e);
             }
         }
 

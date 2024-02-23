@@ -17,13 +17,9 @@ public partial class ServerManager : Node
     public static List<int> ids = new();
     public static Dictionary<int, Client> clients = new();
 
-    public static List<Character> characters = new();
-
-    public static Dictionary<int, PIP> positions = new();
-
     public override void _Ready()
     {
-        Print("Starting Server...");
+        PrintSame("Starting Server...");
 
         on = true;
 
@@ -38,16 +34,7 @@ public partial class ServerManager : Node
 
     public override void _PhysicsProcess(double delta)
     {
-        lock (positions) { 
-            foreach (var c in characters)
-        {
-            
-                if (!positions.ContainsKey(c.id)) continue;
-
-            c.Move(positions[c.id].vector, positions[c.id].rotation, delta);
-            positions.Remove(c.id);
-        }
-            }
+        
     }
 
     private static void ClientAcceptCallback(IAsyncResult result)
@@ -67,7 +54,7 @@ public partial class ServerManager : Node
         // On connection, increase playercount
         playerCount++;
 
-        int _id = ids.Count;
+        int _id = 0;
 
         // Create a unique id for the player
         while (ids.Contains(_id))
@@ -82,18 +69,16 @@ public partial class ServerManager : Node
 
         newClient.tcp.Connect(_client);
 
-        Print(clients.Count);
-
         var thescene = ResourceLoader.Load<PackedScene>("res://Scenes/character.tscn").Instantiate().Duplicate();
-
-        test_scene.sceneTree.CallDeferred(Node.MethodName.AddChild, thescene);
 
         Character c = thescene as Character;
         c.id = _id;
 
         c.Position = new Vector3(new RandomNumberGenerator().RandiRange(-10, 10), c.Position.Y, c.Position.Z);
 
-        characters.Add(c);
+        newClient.character = c;
+
+        test_scene.sceneTree.CallDeferred(Node.MethodName.AddChild, thescene);
 
         Print($"Client connected with id: {_id}, {playerCount} player(s) online!");
 
