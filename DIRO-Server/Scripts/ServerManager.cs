@@ -17,6 +17,8 @@ public partial class ServerManager : Node
     public static List<int> ids = new();
     public static Dictionary<int, Client> clients = new();
 
+    public static List<TcpClient> clientQueue = new();
+
     public override void _Ready()
     {
         PrintSame("Starting Server...");
@@ -37,6 +39,63 @@ public partial class ServerManager : Node
         
     }
 
+    public override void _Process(double delta)
+    {
+        CheckClientQueue();
+    }
+
+    static void CheckClientQueue()
+    {
+        while (clientQueue.Count > 0)
+        {
+            TcpClient _client = clientQueue[0];
+
+            // On connection, increase playercount
+            playerCount++;
+
+            int _id = 0;
+
+            // Create a unique id for the player
+            while (ids.Contains(_id))
+            {
+                _id++;
+            }
+
+            Client newClient = new(_id);
+
+            ids.Add(_id);
+            clients.Add(_id, newClient);
+
+            newClient.tcp.Connect(_client);
+
+            newClient.tcp.WriteStream(PacketManager.ToJson(new GP { id = _id }));
+
+            var thescene = ResourceLoader.Load<PackedScene>("res://Scenes/character.tscn").Instantiate().Duplicate();
+
+            Character c = thescene as Character;
+            c.id = _id;
+
+            c.Position = new Vector3(new RandomNumberGenerator().RandiRange(-10, 10), c.Position.Y, c.Position.Z);
+
+            newClient.character = c;
+
+            test_scene.sceneTree.CallDeferred(Node.MethodName.AddChild, thescene);
+
+            foreach (var x in clients)
+            {
+                if (x.Key == _id) continue;
+
+                newClient.tcp.WriteStream(PacketManager.ToJson(new AP { targetId = x.Key, position = x.Value.character.Position, rotation = x.Value.character.Rotation }));
+            }
+
+            SendAll(PacketManager.ToJson(new AP { targetId = newClient.player.id, position = newClient.character.Position, rotation = newClient.character.Rotation }));
+
+            Print($"Client connected with id: {_id}, {playerCount} player(s) online!");
+
+            clientQueue.RemoveAt(0);
+        }
+    }
+
     private static void ClientAcceptCallback(IAsyncResult result)
     {
         if (!on) return;
@@ -51,36 +110,7 @@ public partial class ServerManager : Node
         {
         }
 
-        // On connection, increase playercount
-        playerCount++;
-
-        int _id = 0;
-
-        // Create a unique id for the player
-        while (ids.Contains(_id))
-        {
-            _id++;
-        }
-
-        Client newClient = new(_id);
-
-        ids.Add(_id);
-        clients.Add(_id, newClient);
-
-        newClient.tcp.Connect(_client);
-
-        var thescene = ResourceLoader.Load<PackedScene>("res://Scenes/character.tscn").Instantiate().Duplicate();
-
-        Character c = thescene as Character;
-        c.id = _id;
-
-        c.Position = new Vector3(new RandomNumberGenerator().RandiRange(-10, 10), c.Position.Y, c.Position.Z);
-
-        newClient.character = c;
-
-        test_scene.sceneTree.CallDeferred(Node.MethodName.AddChild, thescene);
-
-        Print($"Client connected with id: {_id}, {playerCount} player(s) online!");
+        clientQueue.Add(_client);
 
         // Listen for new player
         tcpListener.BeginAcceptTcpClient(ClientAcceptCallback, null);
@@ -100,7 +130,17 @@ public partial class ServerManager : Node
 
         playerCount--;
 
-        ServerManager.Print($"Disconnected from client with id: {_client.player.id}, {playerCount} player(s) remain!");
+        Print($"Disconnected from client with id: {_client.player.id}, {playerCount} player(s) remain!");
+    }
+
+    public static void SendAll(byte[] msg, Client[] exclude = null)
+    {
+        foreach(Client c in clients.Values)
+        {
+            if (exclude != null && exclude.Contains(c)) continue;
+
+            c.tcp.WriteStream(msg);
+        }
     }
 
     public static void Print(object msg)

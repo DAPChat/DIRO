@@ -131,7 +131,7 @@ public class Client
                 }
 
 
-                PacketManager.Decode(buffer, instance);
+                PacketManager.Decode((byte[])buffer.Clone(), instance);
 
                 buffer = new byte[buffer.Length];
 

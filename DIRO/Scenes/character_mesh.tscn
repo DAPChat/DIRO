@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cloncpko7qh7y"]
+
+[ext_resource type="Script" path="res://Scripts/CharacterMesh.cs" id="1_8as0i"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_b114m"]
+
+[node name="CharacterMesh" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.94914, 1, 0)
+mesh = SubResource("CapsuleMesh_b114m")
+script = ExtResource("1_8as0i")

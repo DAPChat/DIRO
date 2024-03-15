@@ -3,6 +3,8 @@ using System;
 
 public partial class Character : Node3D
 {
+	public static Character sceneTree;
+
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
@@ -37,13 +39,13 @@ public partial class Character : Node3D
 		}));
 	}
 
-	public void Move(Vector3 v)
+	public static void Move(Vector3 v)
 	{
-		SetDeferred("position", v);
+		sceneTree.SetDeferred("position", v);
 	}
 
     public override void _Ready()
     {
-		
+		sceneTree = this;
     }
 }

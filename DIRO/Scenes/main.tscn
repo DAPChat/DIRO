@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://crolooqg0yfob"]
+[gd_scene load_steps=8 format=3 uid="uid://crolooqg0yfob"]
 
 [ext_resource type="PackedScene" uid="uid://tlv3tw44xo7l" path="res://Scenes/character.tscn" id="1_ey36o"]
+[ext_resource type="Script" path="res://Scripts/Main.cs" id="1_kxdqn"]
 [ext_resource type="Texture2D" uid="uid://8ev657r8dtke" path="res://City/Materials/OIG4.Bu7D9Nd.jpeg" id="1_w2a2u"]
 [ext_resource type="PackedScene" uid="uid://c15c4tc7bxqsa" path="res://Scenes/static_body_3d.tscn" id="2_bylf8"]
 
@@ -15,6 +16,7 @@ background_mode = 2
 sky = SubResource("Sky_nfdks")
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_kxdqn")
 
 [node name="Character" parent="." instance=ExtResource("1_ey36o")]
 
